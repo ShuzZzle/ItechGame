@@ -1,5 +1,5 @@
 from pygame import Surface, Vector2, Rect
-from pytmx import load_pygame
+from pytmx import load_pygame, TiledTileLayer
 from src.camera import Camera
 from src.player import Player
 import settings
@@ -26,9 +26,22 @@ class Map:
         self.tile_width_count: int = math.ceil(settings.SCREEN_WIDTH / self.map_object.tilewidth)
         self.tile_height_count: int = math.ceil(settings.SCREEN_HEIGHT / self.map_object.tileheight)
         self.tile_height: int = int(self.map_height / self.map_object.tileheight)
+        self.textures = dict()
+        self.preload_textures()
 
     def __del__(self):
         pass
+
+    def preload_textures(self):
+        for layer in self.map_object.visible_layers:
+            if isinstance(layer, TiledTileLayer):
+                for y in range(0, self.map_object.height):
+                    for x in range(0, self.map_object.width):
+                        gid = layer.data[y][x]
+                        image = self.map_object.images[gid]
+                        if gid not in self.textures.keys():
+                            self.textures[gid] = image
+                            print(repr(image))
 
     def flip_y(self, ycord: int) -> int:
         return self.tile_height - ycord
@@ -46,6 +59,4 @@ class Map:
         return screen_height - ((self.flip_y(ycord) - yoffset) * self.map.map_object.tileheight)
 
     def calculate_width_in_px(self, xcord: int, xoffset=0) -> int:
-        print((xcord - xoffset) * self.map_object.tilewidth)
         return (xcord - xoffset) * self.map_object.tilewidth
-

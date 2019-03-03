@@ -21,9 +21,9 @@ class GameScene(SceneManager):
         for index, layer in enumerate(self.map.map_object.visible_layers):
             for y in reversed(range(self.map.tile_height - self.map.tile_height_count, self.map.tile_height)):
                 for x in range(map_offsets.xmin, map_offsets.xmax):
-                    print(map_offsets.xmin, map_offsets.xmax)
                     if isinstance(layer, pytmx.TiledTileLayer):
                         tile = self.map.map_object.get_tile_image(x, y, index)
+                        self.map.map_object.getgid
                         if tile:
                             height = screen.get_height() - (self.map.flip_y(y) * self.map.map_object.tileheight)
                             screen.blit(tile, (self.map.calculate_width_in_px(x, map_offsets.xmin), height))
