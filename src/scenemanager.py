@@ -1,5 +1,6 @@
 import pygame
 import settings
+from src.camera import Camera
 
 
 class SceneManager:
@@ -10,7 +11,7 @@ class SceneManager:
     def update(self, delta=1):
         raise NotImplementedError
 
-    def render(self):
+    def render(self, screen):
         raise NotImplementedError
 
     def handle_events(self, events: [pygame.event.EventType]):

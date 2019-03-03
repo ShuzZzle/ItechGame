@@ -15,7 +15,7 @@ class ItechGame:
         pygame.display.set_caption(settings.GAME_TITLE)
         self.clock: pygame.time.Clock = pygame.time.Clock()
         self.screen: pygame.Surface = pygame.display.set_mode((settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT))
-        self.scene_manager: SceneManager = GameScene()
+        self.scene_manager: SceneManager = GameScene(settings.LEVEL1)
 
     def __del__(self):
         pass
@@ -29,10 +29,11 @@ class ItechGame:
 
     def run(self):
         while self.scene_manager.scene is not None:
+            self.screen.fill((0, 0, 0))
             self.scene_manager.handle_events(self.get_events())
             self.scene_manager.update(delta=self.delta_time)
-            self.scene_manager.render()
-            pygame.display.update()
+            self.scene_manager.render(self.screen)
+            pygame.display.flip()
             self.delta_time = self.clock.tick(settings.TICKRATE) / 1000.0
 
 

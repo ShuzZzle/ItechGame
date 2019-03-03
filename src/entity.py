@@ -1,15 +1,15 @@
 import pygame
+from src.camera import Camera
 
-from src.entity import Entity
 
-
-class Player(Entity):
+class Entity:
 
     def __init__(self, position: pygame.Vector2, velocity: pygame.Vector2):
-        super().__init__(position, velocity)
+        self.position = position
+        self.velocity = velocity
 
     def update(self, delta=1):
-        pass
+        raise NotImplementedError
 
     def handle_events(self, events: [pygame.event.EventType]):
-        pass
+        raise NotImplementedError

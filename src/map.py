@@ -1,20 +1,51 @@
-from pygame import Surface
+from pygame import Surface, Vector2, Rect
 from pytmx import load_pygame
+from src.camera import Camera
+from src.player import Player
+import settings
+import math
+from typing import NamedTuple
+import collections
 
 
-class MapLoader:
+class MapOffset(NamedTuple):
+    xmin: int
+    xmax: int
+    ymin: int
+    ymax: int
 
-    def __init__(self):
-        self.map_object = None
+
+class Map:
+
+    def __init__(self, levelname: str):
+        self.player: Player = Player(position=Vector2(10, 10), velocity=Vector2(10, 10))
+        self.map_object = load_pygame(levelname)
+        self.map_width = self.map_object.tilewidth * self.map_object.width
+        self.map_height = self.map_object.tileheight * self.map_object.height
         self.layers = []
+        self.tile_width_count: int = math.ceil(settings.SCREEN_WIDTH / self.map_object.tilewidth)
+        self.tile_height_count: int = math.ceil(settings.SCREEN_HEIGHT / self.map_object.tileheight)
+        self.tile_height: int = int(self.map_height / self.map_object.tileheight)
 
     def __del__(self):
         pass
 
-    def load_map(self, path: str) -> Surface:
-        self.map_object = load_pygame(path)
+    def flip_y(self, ycord: int) -> int:
+        return self.tile_height - ycord
 
-        for layer in self.map_object.layers:
-            self.layers.append(layer)
+    def get_tile_offset(self, camera: Camera) -> NamedTuple:
+        map_offsets = MapOffset
+        map_offsets.xmin = math.floor(camera.camera.x / self.map_object.tilewidth)
+        map_offsets.xmax = map_offsets.xmin + self.tile_width_count
 
-        return self.map_object
+        map_offsets.ymin = math.floor(camera.camera.y / self.map_object.tileheight)
+
+        return map_offsets
+
+    def calculate_height_in_px(self, screen_height: int, ycord: int, yoffset=0) -> int:
+        return screen_height - ((self.flip_y(ycord) - yoffset) * self.map.map_object.tileheight)
+
+    def calculate_width_in_px(self, xcord: int, xoffset=0) -> int:
+        print((xcord - xoffset) * self.map_object.tilewidth)
+        return (xcord - xoffset) * self.map_object.tilewidth
+
