@@ -13,7 +13,7 @@ class SceneManager:
     def render(self):
         raise NotImplementedError
 
-    def handle_events(self):
+    def handle_events(self, events: [pygame.event.EventType]):
         raise NotImplementedError
 
     def change_scene(self, scene):

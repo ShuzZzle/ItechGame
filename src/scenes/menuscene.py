@@ -1,4 +1,5 @@
 from src.scenemanager import SceneManager
+import pygame
 
 
 class MenuScene(SceneManager):
@@ -12,5 +13,5 @@ class MenuScene(SceneManager):
     def render(self):
         pass
 
-    def handle_events(self):
+    def handle_events(self, events: [pygame.event.EventType]):
         pass

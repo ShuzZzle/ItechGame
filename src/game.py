@@ -3,6 +3,7 @@ import settings
 from src.scenemanager import SceneManager
 from src.scenes.gamescene import GameScene
 
+
 class ItechGame:
 
     def __init__(self):
@@ -19,18 +20,16 @@ class ItechGame:
     def __del__(self):
         pass
 
-    def event_loop(self):
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                self.scene_manager.exit()
+    @staticmethod
+    def get_events() -> [pygame.event.EventType]:
+        return [event for event in pygame.event.get()]
 
     def start(self):
         self.run()
 
     def run(self):
         while self.scene_manager.scene is not None:
-            self.event_loop()
-            self.scene_manager.handle_events()
+            self.scene_manager.handle_events(self.get_events())
             self.scene_manager.update(delta=self.delta_time)
             self.scene_manager.render()
             pygame.display.update()
