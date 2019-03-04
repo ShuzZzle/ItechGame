@@ -33,7 +33,7 @@ class ItechGame:
             self.scene_manager.handle_events(self.get_events())
             self.scene_manager.update(delta=self.delta_time)
             self.scene_manager.render(self.screen)
-            pygame.display.flip()
+            pygame.display.update()
             self.delta_time = self.clock.tick(settings.TICKRATE) / 1000.0
 
 

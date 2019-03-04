@@ -11,7 +11,7 @@ class SceneManager:
     def update(self, delta=1):
         raise NotImplementedError
 
-    def render(self, screen):
+    def render(self, screen: pygame.Surface):
         raise NotImplementedError
 
     def handle_events(self, events: [pygame.event.EventType]):
