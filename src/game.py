@@ -18,7 +18,7 @@ class ItechGame:
         self.scene_manager: SceneManager = GameScene(settings.LEVEL1)
 
     def __del__(self):
-        pass
+        pygame.quit()
 
     @staticmethod
     def get_events() -> [pygame.event.EventType]:
