@@ -23,6 +23,7 @@ class GameScene(SceneManager):
                         tile = self.map.map_object.get_tile_image(x, y, index)
                         if tile:
                             height = screen.get_height() - (self.map.flip_y(y) * self.map.map_object.tileheight)
+                            height = height - self.camera.camera.y
                             position = (x * self.map.map_object.tilewidth) - self.camera.camera.x
                             screen.blit(tile, (position, height))
 
@@ -37,6 +38,10 @@ class GameScene(SceneManager):
             self.camera.camera.x = clamp(self.camera.camera.x-10, 0, (self.map.map_width - settings.SCREEN_WIDTH))
         if keys_pressed[pygame.K_RIGHT]:
             self.camera.camera.x = clamp(self.camera.camera.x+10, 0, (self.map.map_width - settings.SCREEN_WIDTH))
+        if keys_pressed[pygame.K_UP]:
+            self.camera.camera.y = clamp(self.camera.camera.y-10, -1 * (self.map.map_height - settings.SCREEN_HEIGHT), 0)
+        if keys_pressed[pygame.K_DOWN]:
+            self.camera.camera.y = clamp(self.camera.camera.y+10, -1 * (self.map.map_height - settings.SCREEN_HEIGHT), 0)
 
     def update(self, delta=1):
         pass
