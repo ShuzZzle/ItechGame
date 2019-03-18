@@ -6,14 +6,24 @@ from src.camera import Camera
 import pytmx
 import settings
 from src.util import clamp
+from src import esper
+from src.components.velocity import Velocity
+from src.components.position import Position
 
 
-class GameScene(SceneManager):
+class GameScene:
 
-    def __init__(self, levelname: str):
+    def __init__(self, levelname: str, world: esper.World):
         super().__init__()
+        self.scene = self
         self.map: Map = Map(settings.BASE_DIR + "\\" + levelname)
         self.camera: Camera = Camera()
+        self.entities = []
+        self.player = world.create_entity()
+        self.world = world
+        self.world.add_component(self.player, Velocity(0, 0))
+        self.world.add_component(self.player, Position(x=5, y=5))
+        self.entities.append(self.player)
 
     def render(self, screen: pygame.Surface):
         for index, layer in enumerate(self.map.map_object.visible_layers):
@@ -43,6 +53,7 @@ class GameScene(SceneManager):
         if keys_pressed[pygame.K_DOWN]:
             self.camera.camera.y = clamp(self.camera.camera.y+10, -1 * (self.map.map_height - settings.SCREEN_HEIGHT), 0)
 
-    def update(self, delta=1):
-        pass
+    def update(self, delta):
+        # print(delta)
+        self.world.process(delta)
 

@@ -3,13 +3,13 @@ import pygame
 from src.entity import Entity
 
 
-class Player(Entity):
+class Player:
 
-    def __init__(self, position: pygame.Vector2, velocity: pygame.Vector2):
-        super().__init__(position, velocity)
+    def __init__(self, entity_id, player_name="N.A."):
+        self.entity_id = entity_id
+        self.player_name = player_name
 
-    def update(self, delta=1):
-        pass
+    def get_entity_id(self):
+        return self.entity_id
 
-    def handle_events(self, events: [pygame.event.EventType]):
-        pass
+

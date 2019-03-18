@@ -2,6 +2,8 @@ import pygame
 import settings
 from src.scenemanager import SceneManager
 from src.scenes.gamescene import GameScene
+from src import esper
+from src.processors.movement import MovementProcessor
 
 
 class ItechGame:
@@ -15,7 +17,8 @@ class ItechGame:
         pygame.display.set_caption(settings.GAME_TITLE)
         self.clock: pygame.time.Clock = pygame.time.Clock()
         self.screen: pygame.Surface = pygame.display.set_mode((settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT))
-        self.scene_manager: SceneManager = GameScene(settings.LEVEL1)
+        self.world: esper.World = esper.World()
+        self.scene_manager = GameScene(settings.LEVEL1, world=self.world)
 
     def __del__(self):
         pygame.quit()
@@ -25,6 +28,9 @@ class ItechGame:
         return [event for event in pygame.event.get()]
 
     def start(self):
+        # DEBUG Lets add some shit :)
+        movement = MovementProcessor()
+        self.world.add_processor(movement)
         self.run()
 
     def run(self):
