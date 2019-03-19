@@ -18,7 +18,7 @@ class MapOffset(NamedTuple):
 class Map:
 
     def __init__(self, levelname: str):
-        self.player: Player = Player(position=Vector2(10, 10), velocity=Vector2(10, 10))
+        #self.player: Player = Player(position=Vector2(10, 10), velocity=Vector2(10, 10))
         self.map_object = load_pygame(levelname)
         self.map_width = self.map_object.tilewidth * self.map_object.width
         self.map_height = self.map_object.tileheight * self.map_object.height

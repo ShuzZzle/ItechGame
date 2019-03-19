@@ -9,6 +9,7 @@ from src.util import clamp
 from src import esper
 from src.components.velocity import Velocity
 from src.components.position import Position
+from src.player import Player
 
 
 class GameScene:
@@ -21,9 +22,8 @@ class GameScene:
         self.entities = []
         self.player = world.create_entity()
         self.world = world
-        self.world.add_component(self.player, Velocity(0, 0))
-        self.world.add_component(self.player, Position(x=5, y=5))
-        self.entities.append(self.player)
+        self.player: Player = Player(world, player_name="ShuzZzle")
+        self.player.create((Velocity(velx=10, vely=10), Position(x=0, y=0)))
 
     def render(self, screen: pygame.Surface):
         for index, layer in enumerate(self.map.map_object.visible_layers):
